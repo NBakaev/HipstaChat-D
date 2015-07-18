@@ -1,0 +1,841 @@
+<div>
+    <div style="padding: 30px;">
+        <div class="row">
+            <div>
+                <div data-ng-controller="DashboardCtrl">
+
+                    <section class="panel panel-primary" ng-if="allNotifications.length > 0">
+                        <div class="panel-heading"><span class="glyphicon glyphicon-th"></span> У Вас
+                            {{allNotifications.length}} уведолмений
+
+                            <a ng-click="deleteAllNotifications()"  >
+                                удалить все
+                            </a>
+                        </div>
+
+                        <div class="panel-body ">
+                            <div class="conversationWrap">
+
+                                <div class="callout callout-warning" ng-repeat="notification in allNotifications">
+
+                                    <div ng-if="isDebugMode()">
+                                        {{notification}}
+                                    </div>
+
+                                        <div ng-if="notification.type == 5 && notification.more_detailed.isAuthorizationRequest  ">
+                                            <div class="row">
+
+                                                <div class="col-md-2">
+                                                    <button ng-click="deleteNotificationById(notification.id)" class="btn btn-warning">
+                                                        [ OK ]
+                                                    </button>
+                                                </div>
+
+                                                <div class="co-md-6">
+                                                    {{getNotificationTypePretty(notification.type)}} пользователя
+                                                    <a href="#/user/details/{{notification.details}}"> {{printUser(resolveUser(notification.details))}}</a>
+                                                </div>
+
+
+                                            </div>
+                                            <br/>
+
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <button ng-click="addToContactListfooAndDeleteNotification(notification.details, notification.id)" class="btn btn-success">
+                                                        Добавить в свой контакт-лист {{printUser(resolveUser(notification.details))}}
+                                                    </button>
+                                                </div>
+
+                                                <div class="col-md-4">
+                                                    <button ng-click="rejectAuthorisationAndDeleteNotification(notification.details,notification.id )" class="btn btn-danger">
+                                                        Отконить заявку {{printUser(resolveUser(notification.details))}}
+                                                    </button>
+                                                 </div>
+                                            </div>
+
+                                        </div>
+
+
+
+                                    <div ng-if="notification.type == 5 && !notification.more_detailed.isAuthorizationRequest ">
+                                        <div class="row">
+
+                                            <div class="col-md-2">
+                                                <button ng-click="deleteNotificationById(notification.id)" class="btn btn-warning">
+                                                    [ OK ]
+                                                </button>
+                                            </div>
+
+                                            <div class="co-md-6">
+                                               вас успешно добавили в контакт-лист
+                                                <a href="#/user/details/{{notification.details}}">{{printUser(resolveUser(notification.details))}}</a>
+
+                                            </div>
+
+                                        </div>
+                                        <br/>
+                                    </div>
+
+
+
+                                    <div ng-if="notification.type == 6 ">
+                                        <div class="row">
+
+                                            <div class="col-md-2">
+                                                <button ng-click="deleteNotificationById(notification.id)" class="btn btn-warning">
+                                                    [ OK ]
+                                                </button>
+                                            </div>
+
+                                            <div class="co-md-6">
+                                                вас удалили из контакт-листа
+                                                <a href="#/user/details/{{notification.details}}">{{printUser(resolveUser(notification.details))}}</a>
+
+                                            </div>
+
+                                        </div>
+                                        <br/>
+                                    </div>
+
+
+                                    <div ng-if="notification.type == 0 ">
+                                        <div class="row">
+
+                                            <div class="col-md-2">
+                                                <button ng-click="deleteNotificationById(notification.id)" class="btn btn-warning">
+                                                    [ OK ]
+                                                </button>
+                                            </div>
+
+                                            <div class="co-md-6">
+                                                новое сообщение в
+                                                <a href="#/room/details/{{notification.details}}">{{getRoomByRoomId(notification.details).name}}</a>
+
+                                            </div>
+
+                                        </div>
+                                        <br/>
+                                    </div>
+
+
+                                    <div ng-if="notification.type == 1 ">
+                                        <div class="row">
+
+                                            <div class="col-md-2">
+                                                <button ng-click="deleteNotificationById(notification.id)" class="btn btn-warning">
+                                                    [ OK ]
+                                                </button>
+                                            </div>
+
+                                            <div class="co-md-6">
+                                                вас добавили в комнату
+                                                <a href="#/room/details/{{notification.details}}">{{getRoomByRoomId(notification.details).name}}</a>
+
+                                            </div>
+
+                                        </div>
+                                        <br/>
+                                    </div>
+
+
+                                    <div ng-if="notification.type == 4 ">
+                                        <div class="row">
+
+                                            <div class="col-md-2">
+                                                <button ng-click="deleteNotificationById(notification.id)" class="btn btn-warning">
+                                                    [ OK ]
+                                                </button>
+                                            </div>
+
+                                            <div class="co-md-6">
+                                               изменения в комнате
+                                                <a href="#/room/details/{{notification.details}}">{{getRoomByRoomId(notification.details).name}}</a>
+
+                                            </div>
+
+                                        </div>
+                                        <br/>
+                                    </div>
+
+
+                                    <div ng-if="notification.type == 2 ">
+                                        <div class="row">
+
+                                            <div class="col-md-2">
+                                                <button ng-click="deleteNotificationById(notification.id)" class="btn btn-warning">
+                                                    [ OK ]
+                                                </button>
+                                            </div>
+
+                                            <div class="co-md-6">
+                                               вас удалили из комнаты
+                                                <div ng-if="getRoomByRoomId(notification.details)">
+                                                    <b>{{getRoomByRoomId(notification.details).name}}
+                                                    </b>
+                                                </div>
+                                                <!--<a href="#/room/details/{{notification.details}}">{{getRoomByRoomId(notification.details).name}}</a>-->
+                                            </div>
+
+                                        </div>
+                                        <br/>
+                                    </div>
+
+
+                                    <div ng-if="notification.type == 7 ">
+                                        <div class="row">
+
+                                            <div class="col-md-2">
+                                                <button ng-click="deleteNotificationById(notification.id)" class="btn btn-warning">
+                                                    [ OK ]
+                                                </button>
+                                            </div>
+
+                                            <div class="co-md-6">
+                                               заявка на добавление в контакт-лист отклонена
+                                                <a href="#/user/details/{{notification.details}}">{{printUser(resolveUser(notification.details))}}</a>
+
+                                            </div>
+
+                                        </div>
+                                        <br/>
+                                    </div>
+
+                                    <!--<div ng-if="notification.type == 5">-->
+                                        <!--<div class="row">-->
+                                            <!--<div class="co-md-6">-->
+                                                <!--{{getNotificationTypePretty(notification.type)}} пользователя-->
+                                                <!--<a href="#/user/details/{{notification.details}}"> {{printUser(resolveUser(notification.details))}}</a>-->
+                                            <!--</div>-->
+
+                                            <!--<div class="col-md-6">-->
+                                                <!--<button ng-click="deleteNotificationById(notification.id)" class="btn btn-warning">-->
+                                                    <!--удалить уведмоление-->
+                                                <!--</button>-->
+                                            <!--</div>-->
+
+                                        <!--</div>-->
+                                    <!--</div>-->
+
+                                        <!--[ {{notification.id}} ]-->
+                                    <!--</h4>-->
+
+
+                                    <!--<div ng-if="getRoomByRoomId(notification.details).id">-->
+                                        <!--в комнате <a href="#/room/details/{{notification.details}}">{{getRoomByRoomId(notification.details).name}}</a>-->
+                                    <!--</div>-->
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <br/><br/>
+                    </section>
+
+
+
+
+                    <div class="row">
+
+
+                        <div class="col-md-12 col-lg-10">
+                            <section class="panel panel-primary">
+                                <div class="panel-heading"><span class="glyphicon glyphicon-th"></span> Привет,
+
+                                  <b>   {{printUser(currentUser)}} </b>
+                                </div>
+                                <div class="panel-body text-center">
+
+                                    <div ng-if="isDebugMode()">
+                                        {{currentUser | json}}
+                                    </div>
+
+                                    <div class="row">
+
+                                        <div class="col-md-4">
+                                            <img class="  img-rounded" align="center" height="250" width="250"
+                                                 ng-src="{{getAvatarUrlByUser(currentUser)}}"/>
+                                            <br>
+
+                                            <div ng-show="editProfileMode">
+                                                Выберите URL <br/>
+                                                <input type="text" ng-model="currentUser.avatarUrl" class="form-control">
+                                                или загрузите
+                                                <br/>
+                                                <div>Select an image file: <input type="file" id="fileInput" /></div>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="col-md-8">
+                                            <div class="row">
+
+                                                <div class="col-md-6">
+                                                    Имя:
+                                                </div>
+
+                                                <div class="col-md-6">
+
+                                                    <div ng-if="editProfileMode">
+                                                        <input type="text" ng-model="currentUser.firstName"
+                                                               class="form-control">
+                                                    </div>
+
+                                                    <div ng-if="!editProfileMode">
+                                                        <b> {{currentUser.firstName}} </b>
+                                                    </div>
+
+                                                    <hr/>
+                                                </div>
+
+
+
+                                                <div class="col-md-12"></div>
+
+                                                <div class="col-md-6">
+                                                    Фамилия:
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <div ng-if="editProfileMode">
+                                                        <input type="text" ng-model="currentUser.lastName" class="form-control">
+                                                    </div>
+
+                                                    <div ng-if="!editProfileMode">
+                                                        <b> {{currentUser.lastName}} </b>
+                                                    </div>
+                                                    <hr/>
+                                                </div>
+
+
+                                                <div class="col-md-12"></div>
+                                                <div class="col-md-12"></div>
+
+
+                                                <div class="col-md-6">
+                                                    Ник:
+                                                </div>
+
+                                                <div class="col-md-6">
+
+                                                    <div ng-if="editProfileMode">
+                                                        <input type="text" ng-model="currentUser.nickName" class="form-control">
+                                                    </div>
+
+                                                    <div ng-if="!editProfileMode">
+                                                        <b> {{currentUser.nickName}} </b>
+                                                    </div>
+                                                    <hr/>
+                                                </div>
+
+                                                <div class="col-md-12"></div>
+
+
+                                                <div class="col-md-6">
+                                                    Email:
+                                                </div>
+
+                                                <div class="col-md-6">
+
+                                                    <div ng-if="editProfileMode">
+                                                        <input type="text" ng-model="currentUser.email" class="form-control">
+                                                    </div>
+
+                                                    <div ng-if="!editProfileMode">
+                                                        <b> {{currentUser.email}} </b>
+                                                    </div>
+                                                    <hr/>
+                                                </div>
+
+
+                                                <div class="col-md-12"></div>
+
+                                                <div class="col-md-6"></div>
+
+                                                <div class="col-md-6">
+
+                                                    <div ng-if="editProfileMode">
+                                                        <button ng-click="updateMyProfile()" class="btn btn-success">обновить
+                                                        </button>
+                                                        <button ng-click="changeEditModeOff()" class="btn btn-danger">отмена
+                                                        </button>
+                                                    </div>
+
+                                                    <div ng-if="!editProfileMode">
+                                                        <button ng-click="changeEditModeOn()" class="btn btn-success">
+                                                            редактировать
+                                                        </button>
+                                                    </div>
+
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+
+
+
+
+
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+
+
+
+                        <div class="col-md-12" ng-show="myCroppedImage && editProfileMode">
+                            <section class="panel panel-primary">
+                                <div class="panel-heading"><span class="glyphicon glyphicon-th"></span> Аватар - правка</div>
+                                <div class="panel-body text-center">
+
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div>Cropped Image:</div>
+                                            <div><img ng-src="{{myCroppedImage}}" /></div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="cropArea">
+                                                <br/>
+                                                <img-crop   image="myImage" result-image="myCroppedImage"></img-crop>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <button class="btn btn-success" ng-click="uploadAvatar()">Отправить аватар</button>
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-md-12 col-lg-6">
+                            <section class="panel panel-primary">
+                                <div class="panel-heading">
+
+                                    <div class="row">
+                                        <div class="col-md-8">
+                                            <span class="badge ">{{getAccountListFullResult.length}}</span>
+                                            Контакт-лист
+                                        </div>
+
+                                        <div class="col-sm-12 hidden-md hidden-lg"><br/></div>
+
+                                        <div class="col-md-4">
+                                            <input type="text" ng-model="contactListNameFilter" class="form-control" style=" background-color: #248AAF;color:#FFFFFF;" >
+                                        </div>
+
+                                    </div>
+
+
+                                </div>
+                                <div class="panel-body text-center">
+
+                                    <div ng-if="isDebugMode()">
+                                        {{getAccountListFullResult | json}}
+                                    </div>
+
+                                    <table class="table table-bordered table-stripped"
+                                           ng-if="getAccountListFullResult.length > 0  ">
+                                        <thead>
+                                        <tr>
+                                            <th>№</th>
+                                            <th>Имя</th>
+                                            <th>Последний раз заходил</th>
+                                            <th ng-if="editProfileMode">Действие</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr ng-repeat="project in getAccountListFullResult | filter:contactListNameFilter">
+                                            <td class="col-md-1">{{$index+1}}</td>
+
+                                            <td>
+                                                <a href="#/user/details/{{project.id}}">
+                                                                <img class="  img-rounded  " width="30" height="30"
+                                                                     ng-src="{{getAvatarUrlByUser(resolveUser(project.id))}}"/>
+                                                    {{printUser(project)}}
+                                                </a>
+                                            </td>
+
+                                            <td>
+                                                {{timeConverter(project.lastOnlineDate)}} <br/>
+                                               <small> (  {{getLastDateUser( timeConverter(project.lastOnlineDate) )  | number:1 }} мин.назад ) </small>
+
+                                            </td>
+
+
+                                            <td ng-if="editProfileMode">
+                                                <button ng-click="deleteFromContactList(project.id)"
+                                                        class="btn btn-danger">
+                                                    <i class="fa fa-user-times"></i>
+                                                    убрать
+                                                </button>
+                                            </td>
+                                        </tr>
+
+                                        </tbody>
+                                    </table>
+
+                                    <div ng-if="getAccountListFullResult.length == 0">
+                                        <div class="callout callout-warning">
+                                            <h4>в контакт листе никого нет</h4>
+                                            <p>добаьте людей в контакт-лист через <a href="#/chat/userSearch">поиск</a>
+                                            </p>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+
+                            </section>
+                        </div>
+
+
+                    </div>
+
+
+
+                    <div class="row">
+                        <div class="col-md-12 col-lg-10">
+                            <section class="panel panel-primary">
+                                <div class="panel-heading">
+
+                                    <div class="row">
+                                        <div class="col-md-8">
+                                            <span class="badge ng-binding"> {{allRooms.length}}  </span>
+                                            Существующие
+                                            комнаты
+                                        </div>
+
+                                        <div class="col-sm-12 hidden-md hidden-lg"><br/></div>
+
+
+                                        <div class="col-md-4">
+                                            <input type="text" ng-model="roomNameFilter" class="form-control" style=" background-color: #248AAF;color:#FFFFFF;" >
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                                <div class="panel-body text-center hidden-sm hidden-xs visible-md visible-lg">
+
+
+                                    <div ng-if="isDebugMode()">
+                                        {{allRooms | json}}
+                                    </div>
+
+                                    <div ng-if="allRooms.length == 0">
+                                        <div class="callout callout-warning">
+                                            <h4>комнат нет</h4>
+                                            <p>вас нет ни в одной комнате!</p>
+                                        </div>
+                                    </div>
+
+                                    <table class="table table-bordered table-stripped table-hover " ng-if="allRooms.length > 0">
+                                        <thead>
+                                        <tr>
+
+                                            <th class="hidden-sm hidden-xs hidden-md visible-lg">№</th>
+                                            <th>Участники</th>
+                                            <th>Название</th>
+                                            <th>Сообщение</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr ng-repeat="room in allRooms | filter:roomNameFilter | orderBy: 'lastMessage.date'   ">
+
+                                            <td class="hidden-sm hidden-xs hidden-md visible-lg"> <small> {{$index+1}} </small> </td>
+
+                                            <td>
+
+                                                <div class="row nopadding" ng-if="!room.pm">
+                                                    <div class="col-md-6 nopadding" ng-repeat="member in room.members | limitTo:4">
+                                                        <a href="#/user/details/{{resolveUser(member).id}}" target="_blank">
+                                                            <img class="  img-rounded  " width="30" height="30"
+                                                                 ng-src="{{getAvatarUrlByUser(resolveUser(member))}}"/>
+                                                        </a>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row nopadding" ng-if="room.pm">
+                                                    <div  ng-repeat="member in room.members       ">
+                                                        <div ng-if="member != currentUser.id">
+                                                            <img class="  img-rounded  " width="40" height="40"
+                                                                 ng-src="{{getAvatarUrlByUser(resolveUser(member))}}"/>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <br/>
+                                                <span class="badge  " ng-if="!room.pm">{{room.members.length}}</span>
+                                                <br/>
+                                            </td>
+
+                                            <td ng-class="{'warning': resolveUser(room.owner).id == currentUser.id}">
+                                                <h5 ng-if="!room.pm">  <a href="#/room/details/{{room.id}}"> {{room.name}}   </a> </h5>
+                                                <div ng-if="room.type == 1">Шифрование</div>
+                                                <h5 ng-if="room.pm">  <a href="#/room/details/{{room.id}}">
+                                                    <div  ng-repeat="member in room.members       ">
+                                                        <div ng-if="member != currentUser.id">
+                                                            {{printUser(resolveUser(member))}}
+                                                        </div>
+                                                    </div>
+                                                </a> </h5>
+                                                <div ng-if="room.lastMessage" style=" position: relative;  ">
+                                                </div>
+                                            </td>
+
+                                            <td >
+                                                <a href="#/room/details/{{room.id}}">
+
+                                                    <div class="callout callout-warning" ng-if="room.lastMessage" style="margin: 0; !important  ">
+
+                                                        <div class="row">
+                                                            <div class="col-md-3">
+                                                                <img class="  img-rounded  " width="30" height="30"
+                                                                     ng-src="{{getAvatarUrlByUser(resolveUser(room.lastMessage.sender))}}"/>
+                                                            </div>
+                                                            <div class="co-md-9">
+
+                                                                <div ng-if="deSeserialiseOneMessage(room.lastMessage, room.type).text.textMsg.length > 30">
+                                                                    {{deSeserialiseOneMessage(room.lastMessage, room.type).text.textMsg | limitTo: 30}} ...
+                                                                </div>
+
+                                                                <div ng-if="deSeserialiseOneMessage(room.lastMessage, room.type).text.textMsg.length <= 30">
+                                                                    {{deSeserialiseOneMessage(room.lastMessage, room.type).text.textMsg }}
+                                                                </div>
+                                                                <br/>
+                                                            </div>
+                                                        </div>
+                                                        <b>
+                                                            <small class="text-muted pull-right ">  {{ timeConverter( room.lastMessage.date )}}</small> </b>
+                                                    </div>
+
+
+                                                    <div class="callout callout-warning" ng-if="!room.lastMessage" style="margin: 0; !important  ">
+                                                        <h5> нет сообщений ! </h5>
+                                                    </div>
+
+                                                </a>
+                                            </td>
+
+                                            <td ng-if="editProfileMode">
+                                                <!--  this is just member, not owner -->
+                                                <button class="btn btn-danger" ng-click="leaveRoom(room.id)"
+                                                        ng-if="resolveUser(room.owner).id != currentUser.id"
+                                                        ><i
+                                                        class="fa fa-user-times"></i> покинуть
+                                                    </button>
+
+                                                <button class="btn btn-danger" ng-click="leaveRoom(room.id)"
+                                                        ng-if="resolveUser(room.owner).id == currentUser.id && room.members.length == 1"
+                                                        ><i
+                                                        class="fa fa-user-times"></i> удалить <br/> комнату
+                                                </button>
+
+                                                <button class="btn btn-danger" ng-click="leaveRoom(room.id)"
+                                                        disabled
+                                                        ng-if="resolveUser(room.owner).id == currentUser.id && room.members.length > 1 "
+                                                        ><i
+                                                        class="fa fa-user-times"></i> удалите <br/> всех участников
+                                                </button>
+
+                                            </td>
+
+                                        </tr>
+
+                                        </tbody>
+                                    </table>
+
+                                    <hr/>
+                                    <br/>
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            Создать комнату
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <input type="text" ng-model="newRomName" class="form-control" placeholder="введите название">
+                                        </div>
+
+                                        <!--<div class="col-md-3">-->
+                                            <!--<label class="ui-checkbox" ng-show="newRomName.length > 0">-->
+                                                <!--<input type="checkbox" ng-model="newRoomTypeCheckBox">-->
+                                                <!--<span> Шифровать </span>-->
+                                            <!--</label>-->
+                                        <!--</div>-->
+
+
+                                        <div class="col-md-3">
+                                            <button ng-click="addNewRoom()" class="btn btn-success" ng-if="newRomName.length > 0">создать</button>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+
+
+
+
+                                <!--/////////////  MOBILE ///////////////////////-->
+
+
+                                <div class="panel-body text-center visible-sm visible-xs hidden-md hidden-lg">
+
+
+                                    <div ng-if="isDebugMode()">
+                                        {{allRooms | json}}
+                                    </div>
+
+                                    <div ng-if="allRooms.length == 0">
+                                        <div class="callout callout-warning">
+                                            <h4>комнат нет</h4>
+                                            <p>вас нет ни в одной комнате!</p>
+                                        </div>
+                                    </div>
+
+                                    <table class="table table-bordered table-stripped table-hover " ng-if="allRooms.length > 0">
+                                        <thead>
+                                        <tr>
+
+                                            <th class="hidden-sm hidden-xs hidden-md visible-lg">№</th>
+                                            <th>Участники</th>
+                                            <th>  </th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr ng-repeat="room in allRooms | filter:roomNameFilter | orderBy: 'lastMessage.date'   ">
+
+                                            <td class="hidden-sm hidden-xs hidden-md visible-lg"> <small> {{$index+1}} </small> </td>
+
+                                            <td>
+
+                                                <div class="row nopadding" ng-if="!room.pm">
+                                                    <div class="col-md-6 nopadding" ng-repeat="member in room.members | limitTo:4">
+                                                        <a href="#/user/details/{{resolveUser(member).id}}" target="_blank">
+                                                            <img class="  img-rounded  " width="30" height="30"
+                                                                 ng-src="{{getAvatarUrlByUser(resolveUser(member))}}"/>
+                                                        </a>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row nopadding" ng-if="room.pm">
+                                                    <div  ng-repeat="member in room.members       ">
+                                                        <div ng-if="member != currentUser.id">
+                                                            <img class="  img-rounded  " width="40" height="40"
+                                                                 ng-src="{{getAvatarUrlByUser(resolveUser(member))}}"/>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <br/>
+                                                <span class="badge  " ng-if="!room.pm">{{room.members.length}}</span>
+                                                <br/>
+                                            </td>
+
+                                            <td>
+                                                <h5 ng-if="!room.pm">  <a href="#/room/details/{{room.id}}"> {{room.name}}   </a> </h5>
+                                                <h5 ng-if="room.pm">  <a href="#/room/details/{{room.id}}">
+                                                    <div  ng-repeat="member in room.members       ">
+                                                        <div ng-if="member != currentUser.id">
+                                                            {{printUser(resolveUser(member))}}
+                                                        </div>
+                                                    </div>
+                                                </a> </h5>
+
+                                                <br/>
+
+                                                <a href="#/room/details/{{room.id}}">
+
+                                                    <div class="callout callout-warning" ng-if="room.lastMessage" style="margin: 0; !important  ">
+
+                                                        <div class="row">
+                                                            <div class="col-md-3">
+                                                                <img class="  img-rounded  " width="30" height="30"
+                                                                     ng-src="{{getAvatarUrlByUser(resolveUser(room.lastMessage.sender))}}"/>
+                                                            </div>
+                                                            <div class="co-md-9">
+
+                                                                <div ng-if="deSeserialiseOneMessage(room.lastMessage, room.type).text.textMsg.length > 30">
+                                                                    {{deSeserialiseOneMessage(room.lastMessage, room.type).text.textMsg | limitTo: 30}} ...
+                                                                </div>
+
+                                                                <div ng-if="deSeserialiseOneMessage(room.lastMessage, room.type).text.textMsg.length <= 30">
+                                                                    {{deSeserialiseOneMessage(room.lastMessage, room.type).text.textMsg }}
+                                                                </div>
+                                                                <br/>
+                                                            </div>
+
+                                                        </div>
+
+                                                        <b>
+                                                            <small class="text-muted pull-right ">  {{ timeConverter( room.lastMessage.date )}}</small> </b>
+                                                    </div>
+
+
+                                                    <div class="callout callout-warning" ng-if="!room.lastMessage" style="margin: 0; !important  ">
+                                                        <h5> нет сообщений ! </h5>
+                                                    </div>
+
+                                                </a>
+                                            </td>
+
+                                            <td ng-if="editProfileMode">
+                                                <!--  this is just member, not owner -->
+                                                <button class="btn btn-danger" ng-click="leaveRoom(room.id)"
+                                                        ng-if="resolveUser(room.owner).id != currentUser.id"
+                                                        ><i
+                                                        class="fa fa-user-times"></i> покинуть
+                                                </button>
+
+                                                <button class="btn btn-danger" ng-click="leaveRoom(room.id)"
+                                                        ng-if="resolveUser(room.owner).id == currentUser.id && room.members.length == 1"
+                                                        ><i
+                                                        class="fa fa-user-times"></i> удалить <br/> комнату
+                                                </button>
+
+                                                <button class="btn btn-danger" ng-click="leaveRoom(room.id)"
+                                                        disabled
+                                                        ng-if="resolveUser(room.owner).id == currentUser.id && room.members.length > 1 "
+                                                        ><i
+                                                        class="fa fa-user-times"></i> удалите <br/> всех участников
+                                                </button>
+
+                                            </td>
+
+                                        </tr>
+
+                                        </tbody>
+                                    </table>
+
+                                    <hr/>
+                                    <br/>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            Создать комнату
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <input type="text" ng-model="newRomName" class="form-control" placeholder="введите название">
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <button ng-click="addNewRoom()" class="btn btn-success" ng-if="newRomName.length > 0">создать</button>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+
+                            </section>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

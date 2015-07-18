@@ -1,0 +1,168 @@
+<div ng-if="allRooms.length == 0">
+    <div class="callout callout-warning">
+        <h4>комнат нет</h4>
+        <p>вас нет ни в одной комнате!</p>
+    </div>
+</div>
+
+
+<table class="table table-bordered table-stripped table-hover " ng-if="allRooms.length > 0">
+    <thead>
+    <tr>
+
+        <th class="hidden-sm hidden-xs hidden-md visible-lg">№</th>
+        <th>Участники</th>
+        <!--<th>Название</th>-->
+        <th>  </th>
+        <!--<th>Владелец</th>-->
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="room in allRooms | filter:roomNameFilter | orderBy: 'lastMessage.date'   ">
+
+        <td class="hidden-sm hidden-xs hidden-md visible-lg"> <small> {{$index+1}} </small> </td>
+
+        <td>
+
+            <div class="row nopadding" ng-if="!room.pm">
+                <div class="col-md-6 nopadding" ng-repeat="member in room.members | limitTo:4">
+                    <a href="#/user/details/{{resolveUser(member).id}}" target="_blank">
+                        <img class="  img-rounded  " width="30" height="30"
+                             ng-src="{{getAvatarUrlByUser(resolveUser(member))}}"/>
+                    </a>
+                </div>
+            </div>
+
+            <div class="row nopadding" ng-if="room.pm">
+                <!--{{room.members}}-->
+
+                <div  ng-repeat="member in room.members       ">
+                    <div ng-if="member != currentUser.id">
+                        <img class="  img-rounded  " width="40" height="40"
+                             ng-src="{{getAvatarUrlByUser(resolveUser(member))}}"/>
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+
+            <br/>
+            <span class="badge  " ng-if="!room.pm">{{room.members.length}}</span>
+
+
+            <br/>
+            <!--<div class="hidden-sm hidden-xs hidden-md visible-lg"> ( {{room.members.length}} ) </div>-->
+        </td>
+
+
+        <td >
+
+
+
+            <h5>  <a href="#/room/details/{{room.id}}"> {{room.name}}   </a>
+
+                <span class="badge badge-info" ng-if="countNotificationInRoomById(room.id) > 0 "> {{countNotificationInRoomById(room.id)}} </span>
+
+            </h5>
+
+            <div ng-if="room.lastMessage" style=" position: relative;  ">
+                <!--<div style="position: absolute;  bottom: 9999; " >-->
+
+            </div>
+
+            <br/>
+
+
+            <a href="#/room/details/{{room.id}}">
+
+                <div class="callout callout-warning" ng-if="room.lastMessage" style="margin: 0; !important  ">
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <img class="  img-rounded  " width="30" height="30"
+                                 ng-src="{{getAvatarUrlByUser(resolveUser(room.lastMessage.sender))}}"/>
+                        </div>
+                        <div class="co-md-9">
+
+                            <div ng-if="room.lastMessage.text.length > 30">
+                                {{room.lastMessage.text | limitTo: 30}} ...
+                            </div>
+
+                            <div ng-if="room.lastMessage.text.length <= 30">
+                                {{room.lastMessage.text  }}
+                            </div>
+
+
+                            <br/>
+
+
+                        </div>
+
+                    </div>
+
+                    <b>
+                        <small class="text-muted pull-right ">  {{ timeConverter( room.lastMessage.date )}}</small> </b>
+                </div>
+
+
+                <div class="callout callout-warning" ng-if="!room.lastMessage" style="margin: 0; !important  ">
+                    <h5> нет сообщений ! </h5>
+                </div>
+
+
+
+
+            </a>
+        </td>
+
+        <td ng-if="editProfileMode">
+            <!--  this is just member, not owner -->
+            <button class="btn btn-danger" ng-click="leaveRoom(room.id)"
+                    ng-if="resolveUser(room.owner).id != currentUser.id"
+                    ><i
+                    class="fa fa-user-times"></i> покинуть
+            </button>
+
+            <button class="btn btn-danger" ng-click="leaveRoom(room.id)"
+                    ng-if="resolveUser(room.owner).id == currentUser.id && room.members.length == 1"
+                    ><i
+                    class="fa fa-user-times"></i> удалить <br/> комнату
+            </button>
+
+            <button class="btn btn-danger" ng-click="leaveRoom(room.id)"
+                    disabled
+                    ng-if="resolveUser(room.owner).id == currentUser.id && room.members.length > 1 "
+                    ><i
+                    class="fa fa-user-times"></i> удалите <br/> всех участников
+            </button>
+
+        </td>
+
+    </tr>
+
+    </tbody>
+</table>
+
+
+<style>
+
+    .aside-backdrop.am-fade {
+        opacity: .5;
+        transition: opacity .15s linear;
+    &.ng-enter {
+         opacity: 0;
+    &.ng-enter-active {
+         opacity: .5;
+     }
+    }
+    &.ng-leave {
+         opacity: .5;
+    &.ng-leave-active {
+         opacity: 0;
+     }
+    }
+    }
+</style>

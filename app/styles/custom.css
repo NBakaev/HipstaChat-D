@@ -1,0 +1,168 @@
+.header-container > .top-header .logo  {
+    background-color: #16A086;
+}
+
+.conversationWrap
+{
+    box-shadow: -2px 0 3px #ddd;
+    padding:0;
+    max-height: 400px;
+    overflow: auto;
+    padding: 10px;;
+}
+
+.btn-panel .btn
+{
+    color:#b8b8b8;
+
+    transition: 0.2s all ease-in-out;
+}
+
+.btn-panel .btn:hover
+{
+    color:#666;
+    background: #f8f8f8;
+}
+.btn-panel .btn:active
+{
+    background: #f8f8f8;
+    box-shadow: 0 0 1px #ddd;
+}
+
+.btn-panel-conversation .btn,.btn-panel-msg .btn
+{
+
+    background: #f8f8f8;
+}
+.btn-panel-conversation .btn:first-child
+{
+    border-right: 1px solid #ddd;
+}
+
+.msg-wrap .media-heading
+{
+    color:#003bb3;
+    font-weight: 700;
+}
+
+
+body::-webkit-scrollbar {
+    width: 12px;
+}
+
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+
+::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+}
+
+
+::-webkit-scrollbar-thumb {
+
+    background:#ddd;
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5);
+}
+::-webkit-scrollbar-thumb:window-inactive {
+    background: #ddd;
+}
+
+
+
+.textarea-fill-all-parent {
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box; /* For IE and modern versions of Chrome */
+    -moz-box-sizing: border-box; /* For Firefox                          */
+    -webkit-box-sizing: border-box; /* For Safari                           */
+}
+
+
+
+.nopadding {
+    padding-left: 0;
+    padding-right: 0;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+
+
+
+
+/*//////////////////////*/
+
+
+/*#topnav {*/
+    /*background-color: #333333;*/
+    /*display: block;*/
+    /*height: 35px;*/
+    /*left: 0;*/
+    /*position: absolute;*/
+    /*right: 0;*/
+    /*top: 0;*/
+    /*background-color: #DDD;*/
+/*}*/
+
+/*#sidebar {*/
+    /*background-color: #EEE;*/
+    /*position: absolute;*/
+    /*top: 35px;*/
+    /*bottom: 0;*/
+    /*left: 0;*/
+    /*width: 200px;*/
+    /*overflow: auto;*/
+/*}*/
+/*#content {*/
+    /*position: absolute;*/
+    /*top: 35px;*/
+    /*bottom: 0;*/
+    /*left: 206px /!* 200 + 6*!/;*/
+    /*right: 0;*/
+    /*overflow: hidden;*/
+    /*color: #FFF;*/
+
+/*}*/
+/*#top-content {*/
+    /*position: absolute;*/
+    /*top: 0;*/
+    /*bottom: 136px; /!* 130 + 6 *!/*/
+    /*left: 0;*/
+    /*right: 0;*/
+    /*background-color: #444;*/
+    /*overflow: auto;*/
+/*}*/
+/*#bottom-content {*/
+    /*position: absolute;*/
+    /*height: 130px;*/
+    /*bottom: 0;*/
+    /*left: 0;*/
+    /*right: 0;*/
+    /*overflow: auto;*/
+    /*background-color: #777;*/
+/*}*/
+
+/*#sidebar-resizer {*/
+    /*background-color: #666;*/
+    /*position: absolute;*/
+    /*top: 35px;*/
+    /*bottom: 0;*/
+    /*left: 200px;*/
+    /*width: 6px;*/
+    /*cursor: e-resize;*/
+/*}*/
+/*#content-resizer {*/
+    /*position: absolute;*/
+    /*height: 6px;*/
+    /*bottom: 130px;*/
+    /*left: 0;*/
+    /*right: 0;*/
+    /*background-color: #666;*/
+    /*cursor: n-resize;*/
+/*}*/
+
+/*#sidebar-resizer:hover, #preview-resizer:hover {*/
+    /*background-color: #AAA;*/
+/*}*/

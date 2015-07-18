@@ -1,0 +1,220 @@
+<section class="panel panel-primary">
+    <div class="panel-heading"><span class="glyphicon glyphicon-th"></span> Настройки <b> </b></div>
+    <div class="panel-body text-center">
+
+
+
+
+            <div class="row" ng-show="resolveUser(currentRoom.owner).id == currentUser.id">
+                <div class="col-md-4">
+                    Название комнаты
+                </div>
+
+                <div class="col-md-4">
+                    <input type="text" ng-model="$parent.newRoomName" class="form-control">
+                </div>
+
+                <div class="col-md-4">
+                    <button ng-click="changeRoomName()" class="btn btn-success"> сменить название</button>
+                </div>
+            </div>
+
+
+            <hr/>
+
+
+            <div class="col-md-12"></div>
+
+
+            <div class="col-md-6">
+                Владелец
+            </div>
+
+            <div class="col-md-6">
+                <a href="#/user/details/{{currentRoom.owner}}"> ( {{printUser(resolveUser(currentRoom.owner)) }} ) </a>
+            </div>
+            <br/>
+            <hr/>
+            <br/> <br/>
+
+
+            <div ng-if="isDebugMode()">
+                {{getAccountListFullResult}}
+            </div>
+
+            <table class="table table-bordered table-stripped" ng-show="resolveUser(currentRoom.owner).id == currentUser.id">
+                <thead>
+                <tr>
+                    <th class="hidden-sm hidden-xs">№</th>
+                    <th>Имя</th>
+                    <th>Добавить</th>
+                    <!--<th>выгнать</th>-->
+                </tr>
+                </thead>
+                <tbody>
+
+
+                <tr ng-repeat="project in getAccountListFullResult | filter:alreadyInChatFilter as filteredContactList">
+                    <td class="col-md-1 hidden-sm hidden-xs">{{$index+1}}</td>
+                    <!--<td > {{project.id}} </td>-->
+                    <td>
+                        {{printUser(project) }}
+                        <!--{{project.firstName}}  {{project.lastName}} (  {{ project.nickName}}  )-->
+                    </td>
+                    <td>
+                        <button ng-click="addMemberToChat(project.id)" class="btn btn-success"> добавить в чат</button>
+                    </td>
+                    <!--<td>  <button ng-click="deleteMemberFromChat(project.id)" class="btn btn-danger"> выгнать </button>    </td>-->
+                </tr>
+
+
+                </tbody>
+            </table>
+
+
+
+
+
+
+
+            <div ng-if="filteredContactList.length == 0">
+                <div class="callout callout-warning">
+                    <h4>людей из контакт листа нет</h4>
+                    <p>все люди из вашего контакт-листа уже в этом чате!</p>
+                </div>
+            </div>
+
+
+        </div>
+
+
+</section>
+
+
+<section class="panel panel-primary">
+    <div class="panel-heading"><span class="glyphicon glyphicon-th"></span> UI/UX <b> </b></div>
+    <div class="panel-body text-center">
+
+        <div class="panel-body text-center">
+            <br/>
+            <label class="ui-checkbox">
+                <input name="checkbox1" type="checkbox" ng-model="$parent.$parent.$parent.useScrollable" ng-change="scrollbarChanged()"><span> Использовать scrollbar </span></label>
+
+            <br/>
+            <label class="ui-checkbox">
+                <input name="checkbox1" type="checkbox" ng-model="$parent.reverseBool"><span> Обратная сортировка </span></label>
+
+            <br/>
+            <label class="ui-checkbox">
+                <input name="checkbox1" type="checkbox" ng-model="$parent.enterSendBtn"><span> отправлять по enter </span></label>
+
+            <br/>
+
+
+            <br/>
+
+
+            </div>
+        </div>
+    </section>
+
+
+<section class="panel panel-primary">
+    <div class="panel-heading"><span class="glyphicon glyphicon-th"></span> Глобальные уведомления <b> </b></div>
+    <div class="panel-body text-center">
+
+        <div class="panel-body text-center">
+
+            <br/>
+            <label class="ui-checkbox">
+                <input name="checkbox1" type="checkbox" ng-model="$parent.$parent.$parent.accountSettings.notifications.newMessageTypeDisabled" ng-change="saveAccountSettings()"><span> отключить ВСЕ уведолмения
+                о новых сообщениях
+            </span></label>
+
+            <br/>
+
+
+            <label class="ui-checkbox">
+                <input name="checkbox1" type="checkbox" ng-model="$parent.$parent.$parent.accountSettings.notifications.addedToRoomTypeDisabled"  ng-change="saveAccountSettings()"><span> отключить ВСЕ уведолмения
+                о добавлении в комнату
+            </span></label>
+
+            <br/>
+
+
+            <label class="ui-checkbox">
+                <input name="checkbox1" type="checkbox" ng-model="$parent.$parent.$parent.accountSettings.notifications.deletedFromToomTypeDisabled"  ng-change="saveAccountSettings()"><span> отключить ВСЕ уведолмения
+                об удалении из комнат
+            </span></label>
+
+            <br/>
+
+
+            <label class="ui-checkbox">
+                <input name="checkbox1" type="checkbox" ng-model="$parent.$parent.$parent.accountSettings.notifications.changesInRoomTypeDisabled"  ng-change="saveAccountSettings()"><span> отключить ВСЕ уведолмения
+                об изменениях в комнатах
+            </span></label>
+
+            <br/>
+
+            <label class="ui-checkbox">
+                <input name="checkbox1" type="checkbox" ng-model="$parent.$parent.$parent.accountSettings.notifications.addedToContactListTypeDisabled"  ng-change="saveAccountSettings()"><span> отключить ВСЕ уведолмения
+                о внесении в контакт-лист
+            </span></label>
+
+            <br/>
+
+            <label class="ui-checkbox">
+                <input name="checkbox1" type="checkbox" ng-model="$parent.$parent.$parent.accountSettings.notifications.deletedFromContactListTypeDisabled"  ng-change="saveAccountSettings()"><span> отключить ВСЕ уведолмения
+                об удалении из контакт-листа
+            </span></label>
+
+            <br/>
+
+
+            <!--<label class="ui-input">-->
+                <!--<input type="text" ng-model="$parent.messengesColumn" class="form-control">-->
+                <!--<span>  Колонка сообщений [0-12] </span></label>-->
+
+            <!--<label class="ui-input">-->
+                <!--<input type="text" ng-model="$parent.membersColumn" class="form-control">-->
+                <!--<span>   Колонка настроек [0-12] </span></label>-->
+
+
+        </div>
+
+    </div>
+</section>
+
+
+<br/><br/>
+
+
+<style>
+
+    .aside-backdrop.am-fade {
+        opacity: .5;
+        transition: opacity .15s linear;
+
+    &
+    .ng-enter {
+        opacity: 0;
+
+    &
+    .ng-enter-active {
+        opacity: .5;
+    }
+
+    }
+    &
+    .ng-leave {
+        opacity: .5;
+
+    &
+    .ng-leave-active {
+        opacity: 0;
+    }
+
+    }
+    }
+</style>

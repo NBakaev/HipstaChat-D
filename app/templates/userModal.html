@@ -1,0 +1,48 @@
+<!--{{resolveUser(room.owner)}}-->
+
+<table class="table table-bordered table-stripped " ng-if="resolveUser(room.owner)">
+
+    <thead>
+    <tr>
+        <th>Имя</th>
+        <th>Фамилия</th>
+        <th>Email</th>
+        <th>Ник</th>
+
+
+    </tr>
+    </thead>
+    <tbody>
+    <tr  >
+        <td>{{resolveUser(room.owner).firstName}}</td>
+        <td>{{resolveUser(room.owner).lastName}}</td>
+        <td>{{resolveUser(room.owner).email}}</td>
+        <td>{{resolveUser(room.owner).nickName}}</td>
+        <!--<td>{{resolveUser(room.owner).firstName}}</td>-->
+
+    </tr>
+
+    </tbody>
+    </table>
+
+
+
+<style>
+
+    .modal-backdrop.am-fade {
+        opacity: .5;
+        transition: opacity .15s linear;
+    &.ng-enter {
+         opacity: 0;
+    &.ng-enter-active {
+         opacity: .5;
+     }
+    }
+    &.ng-leave {
+         opacity: .5;
+    &.ng-leave-active {
+         opacity: 0;
+     }
+    }
+    }
+</style>

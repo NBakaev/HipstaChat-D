@@ -1,0 +1,57 @@
+<table class="table table-bordered table-stripped"   ng-if="getAccountListFullResult.length > 0  " style="padding-top: 15px;">
+    <thead>
+    <tr>
+        <th>№</th>
+        <th>Имя</th>
+        <!--<th>Действие</th>-->
+    </tr>
+    </thead>
+    <tbody>
+
+    <div ng-if="getAccountListFullResult.length == 0">
+        <div class="callout callout-warning">
+            <h4>в контакт листе никого нет</h4>
+            <p>добаьте людей в контакт-лист через <a href="#/chat/userSearch">поиск</a> </p>
+        </div>
+    </div>
+
+    <tr ng-repeat="project in getAccountListFullResult">
+        <td  class="col-md-1" >{{$index+1}}</td>
+        <td >
+
+            <a href="#/user/details/{{project.id}}">
+                {{project.firstName}}  {{project.lastName}} (  {{resolveUser(project.id).nickName}}  )
+            </a>
+
+
+
+
+
+        </td>
+        <!--<td>  <button ng-click="addToContactListfoo(project.id)" class="btn btn-success"> В контакт лист</button>    </td>-->
+    </tr>
+
+    </tbody>
+</table>
+
+
+
+<style>
+
+    .aside-backdrop.am-fade {
+        opacity: .5;
+        transition: opacity .15s linear;
+    &.ng-enter {
+         opacity: 0;
+    &.ng-enter-active {
+         opacity: .5;
+     }
+    }
+    &.ng-leave {
+         opacity: .5;
+    &.ng-leave-active {
+         opacity: 0;
+     }
+    }
+    }
+</style>

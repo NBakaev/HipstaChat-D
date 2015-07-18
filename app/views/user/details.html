@@ -1,0 +1,97 @@
+<section class="page-form-ele page">
+    <br>
+    <div class="row">
+        <div class="col-md-12">
+
+            <section class="panel panel-primary">
+                <div class="panel-heading"><span class="glyphicon glyphicon-th"></span> Пользователь  <b> {{resolveUser(currentUserId).nickName}} </b>
+
+                </div>
+                <div class="panel-body text-center">
+
+                    <!--<div ng-if="isInContactList(resolveUser(currentUserId).id)">-->
+                       <!--В контакт-листе !-->
+                    <!--</div>-->
+
+
+
+                    <div class="row">
+
+                        <div class="col-md-4">
+                            <img class="  img-rounded  " width="250" height="250"
+                                 ng-src="{{getAvatarUrlByUser(resolveUser(currentUserId))}}"/>
+                        </div>
+
+                        <div class="col-md-8">
+                            <table class="table table-bordered table-stripped   ">
+
+                                <thead>
+                                <tr>
+                                    <th>Имя</th>
+                                    <th>Фамилия</th>
+                                    <th>Email</th>
+                                    <th>Ник</th>
+
+
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr  >
+                                    <td>{{resolveUser(currentUserId).firstName}}</td>
+                                    <td>{{resolveUser(currentUserId).lastName}}</td>
+                                    <td>{{resolveUser(currentUserId).email}}</td>
+                                    <td>{{resolveUser(currentUserId).nickName}}</td>
+                                    <!--<td>{{resolveUser(room.owner).firstName}}</td>-->
+
+                                </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+
+
+
+
+                    <!--<div class="row" ng-if="isInContactList(resolveUser(currentUserId).id)">-->
+                        <!--<div class="col-md-6">-->
+                            <!--<button ng-click="deleteFromContactList(project.id)"-->
+                                    <!--class="btn btn-success">-->
+                                <!--&lt;!&ndash;<i class="fa fa-user-times"></i>&ndash;&gt;-->
+                                <!--отправить личное сообщение-->
+                            <!--</button>-->
+                        <!--</div>-->
+
+
+                        <!--<div class="col-md-6">-->
+                            <!--<button ng-click="deleteFromContactList(resolveUser(currentUserId).id)"-->
+                                    <!--class="btn btn-danger">-->
+                                <!--<i class="fa fa-user-times"></i>-->
+                                <!--убрать из контакт-листа-->
+                            <!--</button>-->
+                        <!--</div>-->
+
+
+
+
+                    <!--</div>-->
+
+
+                </div>
+            </section>
+
+
+
+
+
+
+        </div>
+
+
+    </div>
+
+
+</section>
+
+

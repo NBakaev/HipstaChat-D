@@ -1,0 +1,77 @@
+<section class="page-form-ele page">
+    <section class="panel panel-primary">
+        <div class="panel-heading"><span class="glyphicon glyphicon-th"></span> Поиск по ФИО и Email</div>
+        <div class="panel-body text-center">
+
+            <input type="text" ng-change="searchUserByData()" ng-model="searchData" class="form-control">
+
+            <div ng-if="isDebugMode()">
+                {{searchResult}}
+            </div>
+
+            <h4> результаты поиска </h4>
+
+            <table class="table table-bordered table-stripped" ng-if="searchResult.length > 0  ">
+                <thead>
+                <tr>
+                    <th>№</th>
+                    <th>ФИО</th>
+                    <th>Действие</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="project in searchResult" ng-class="{'success': isInContactList(project.id) && currentUser.id != project.id}">
+                    <td class="col-md-1">{{$index+1}}</td>
+                    <td>
+                        <a href="#/user/details/{{project.id}}">
+                            {{ project.name}}
+                            </a>
+
+
+                        {{printUser(project)}}
+
+                        <!--<div ng-if="project.username" > | {{ project.username}}  </div>-->
+
+                    </td>
+                    <td>
+
+                        <div ng-if="!isInContactList(project.id) && currentUser.id != project.id">
+                            <button ng-click="addToContactListfoo(project.id)" class="btn btn-success">
+                                <i class="fa fa-user-plus"></i>  В контакт
+                                лист
+                            </button>
+                        </div>
+
+                        <div ng-if="isInContactList(project.id) && currentUser.id != project.id">
+                            <button disabled ng-click="addToContactListfoo(project.id)" class="btn btn-success">
+                                уже в контакт листе
+                            </button>
+                        </div>
+
+                        <div ng-if="currentUser.id == project.id">
+                            <button disabled ng-click="addToContactListfoo(project.id)" class="btn btn-success">
+                                это Вы ;)
+                            </button>
+                        </div>
+
+                    </td>
+                </tr>
+
+                </tbody>
+            </table>
+
+            <div ng-if="searchResult.length == 0">
+                <div class="callout callout-warning">
+                    <h4>нет результатов</h4>
+
+                    <p>введите другие данные для поиска</p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+
+
+
+</section>

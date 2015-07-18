@@ -1,0 +1,112 @@
+<style>
+    @media (max-width: 767px) {
+        .nav2 {
+            max-height: 100%;
+            overflow-y: scroll;
+        }
+    }
+</style>
+
+
+<div class="nav-wrapper"  data-ng-controller="NavCtrl">
+    <ul id="nav"
+        class="nav  nav2"
+        data-slim-scroll
+        data-collapse-nav
+        data-highlight-active>
+
+        <li class="  admin-section"  >
+            <a href="#/dashboard"> <i class="fa fa-user"></i><span data-i18n="  Мой аккаунт"></span> </a>
+        </li>
+
+        <li class="  admin-section"  >
+            <a href="#/chat/userSearch"> <i class="fa fa-search"></i><span data-i18n="Поиск пользователя"></span> </a>
+        </li>
+
+        <li class="  admin-section" ng-show="false">
+            <a  ><i class="fa fa-thumb-tack"></i><span data-i18n="Системная информация"></span></a>
+            <ul>
+                 <li><a href="#/debug"><i class="fa fa-outdent"></i><span data-i18n="debug mode"></span></a> </li>
+            </ul>
+        </li>
+
+        <li class="admin-section"  >
+            <a href="">
+                <i class="fa fa-outdent"></i>
+                <span data-i18n="Быстрые Контакты"
+                      content-template="templates/fastContacts.html"
+                      data-placement="right" data-animation="am-slide-right"  data-container="body" bs-aside="getAccountListFullResult"
+                        ></span>
+            </a>
+        </li>
+
+        <br/><br/>
+
+        <li>
+
+            <div class="col-sm-12 hidden-md hidden-lg"><br/></div>
+
+
+            <!--<div class="col-md-4">-->
+            <div style="padding: 10px;">
+                <input type="text" ng-model="roomNameFilter" class="form-control" style="background-color: #34323A; border-color:  #27221C;">
+
+            </div>
+            <!--</div>-->
+
+        </li>
+
+        <!--hidden-sm hidden-xs-->
+        <li class="  admin-section "  ng-repeat="room in allRooms | filter:roomNameFilter">
+            <a href="#/room/details/{{room.id}}" >
+
+
+
+
+                     <div ng-if="room.pm">
+                         <div  ng-repeat="member in room.members       ">
+                             <div ng-if="member != currentUser.id">
+                                 <i class="fa fa-bell-slash" ng-if="isRoomMuted(room.id)"   ></i>
+
+                                 <i class="fa fa-child" ng-if="room.pm" ></i>
+
+                                 {{printUser(resolveUser(member))}}
+                             </div>
+                         </div>
+                     </div>
+
+                    <div ng-if="!room.pm">
+
+                                <span ng-if="room.name.length > 42">
+                                 <i class="fa fa-bell-slash" ng-if="isRoomMuted(room.id)"   ></i>
+                                    <i class="fa fa-bookmark" ng-if="!room.pm" ></i>
+                                     {{room.name | limitTo:42}} ...
+                                </span>
+
+                                <span ng-if="room.name.length <= 42">
+                                   <i class="fa fa-bell-slash" ng-if="isRoomMuted(room.id)"  ></i>
+
+                                    <i class="fa fa-bookmark" ng-if="!room.pm" ></i>
+                                    {{room.name   }}
+                                </span>
+
+                    </div>
+
+                <span class="badge badge-info" ng-if="countNotificationInRoomById(room.id) > 0 "> {{countNotificationInRoomById(room.id)}} </span>
+
+            </a>
+
+
+
+
+
+        </li>
+
+
+
+
+
+    </ul>
+
+
+</div>

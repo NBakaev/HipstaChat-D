@@ -1,0 +1,85 @@
+<section class="panel panel-primary">
+    <div class="panel-heading"><span class="glyphicon glyphicon-th"></span>  Участники ( {{currentRoom.members.length}} чел. ) <b> </b></div>
+    <div class="panel-body text-center">
+
+
+
+    <div class="panel-heading">
+
+    </div>
+    <div class="panel-body">
+        <ul class="media-list">
+
+            <li class="media" ng-repeat="member in currentRoom.members">
+
+                <div class="media-body">
+
+                    <div class="media">
+                        <a class="pull-left" href="#">
+
+                            <img class="media-object img-rounded " width="70" height="70"
+                                 ng-src="{{getAvatarUrlByUser(resolveUser(member))}}"/>
+
+                        </a>
+
+                        <div class="media-body">
+                            <h5>
+                                {{member.id}}
+                            </h5>
+
+                            <small class="text-muted">
+
+                                <a href="#/user/details/{{resolveUser(member).id}}" target="_blank">
+                                    {{printUser(resolveUser(member)) }}
+                                </a>
+
+                            </small>
+
+                            <br/>
+                            <small class="text-muted"> {{ timeConverter(resolveUser(member).lastOnlineDate )}}</small>
+
+                            <div ng-show="resolveUser(currentRoom.owner).id == currentUser.id">
+                                <button ng-click="deleteMemberFromChat(member)" class="btn btn-danger btn-sm"> выгнать
+                                </button>
+                            </div>
+
+
+                            <hr/>
+
+                        </div>
+                    </div>
+
+                </div>
+            </li>
+
+        </ul>
+    </div>
+</div>
+
+
+
+    </section>
+
+
+
+<style>
+
+
+    .aside-backdrop.am-fade {
+        opacity: .5;
+        transition: opacity .15s linear;
+    &.ng-enter {
+         opacity: 0;
+    &.ng-enter-active {
+         opacity: .5;
+     }
+    }
+    &.ng-leave {
+         opacity: .5;
+    &.ng-leave-active {
+         opacity: 0;
+     }
+    }
+    }
+
+</style>
